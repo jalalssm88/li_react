@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const Agency = require('./api/routers/agencyRouter');
+const User = require('./api/routers/userRouter');
 app.use('/agency', Agency);
+app.use('/user', User)
 
 
 const port = 4000;

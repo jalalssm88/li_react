@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux';
+import {getUser} from '../../actions/action';
 
 class UserList extends Component {
+    componentWillMount(){
+        this.props.getUser();
+    }
     render() {
         return (
             <div className="main_container">
@@ -14,13 +19,31 @@ class UserList extends Component {
                         <table className="ui celled table">
                             <thead>
                                 <tr>
+                                    <th>User Name</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                    <th>Action</th>
+                                    <th>Email</th>
+                                    <th>Agency</th>
+                                    <th>Is Active</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                                {
+                                    this.props.user.users.map(user =>(
+                                        <tr key={user._id}>
+                                            <td>{user.user_name}</td>
+                                            <td>{user.first_name}</td>
+                                            <td>{user.last_name}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.agency}</td>
+                                            <td>
+                                                {user.active == true?<i className="icon large green check circle"></i>:<i className="icon red remove large icon"></i>}
+                                            </td>
+
+
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -30,4 +53,7 @@ class UserList extends Component {
     }
 }
 
-export default UserList;
+const mapStateToProps = (state)=>({
+    user:state.user
+})
+export default connect(mapStateToProps,{getUser})(UserList);

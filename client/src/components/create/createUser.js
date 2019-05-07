@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {getAgency} from '../../actions/action';
+import {getAgency, createUser} from '../../actions/action';
 
 class UserList extends Component {
     constructor(props){
@@ -28,7 +28,7 @@ class UserList extends Component {
     }
     submitHandler = (e) =>{
         e.preventDefault();
-
+        this.props.createUser(this.state, this.props.history)
     }
     render() {
         return (
@@ -100,4 +100,4 @@ class UserList extends Component {
 const mapStateToProps = (state)=>({
     agency:state.agency
 })
-export default connect(mapStateToProps,{getAgency})(UserList);
+export default connect(mapStateToProps,{getAgency, createUser})(UserList);
