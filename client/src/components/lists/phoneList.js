@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Modal, Form, Button, Icon } from 'semantic-ui-react';
+import { Modal, Button, Icon } from 'semantic-ui-react';
+import {createPhone, getPhone} from '../../actions/action';
+import { connect } from 'react-redux';
 
 
 class PhoneList extends Component {
@@ -25,6 +27,27 @@ class PhoneList extends Component {
         this.setState({
             showModal:true
         })
+    }
+
+    changeHandler = (e)=>{
+        this.setState({
+            phone_no:e.target.value
+        })
+    }
+
+    submitHandler = (e) => {
+        e.preventDefault();
+        const create_phone = {
+            phone_no:this.state.phone_no
+        }
+        this.props.createPhone(create_phone);
+        this.setState({
+            showModal: false,phone_no:''
+        })
+    }
+
+    componentWillMount(){
+        this.props.getPhone();
     }
     render() {
         return (
@@ -54,13 +77,21 @@ class PhoneList extends Component {
                         <table className="ui celled table">
                             <thead>
                                 <tr>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
+                                    <th>Phone Number</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                                {
+                                    this.props.phone.phones.map(phone => (
+                                        <tr key={phone._id}>
+                                            <td>{phone.phone_no}</td>
+                                            <td>
+                                                <button className="ui icon button"><i className="action icon"></i></button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -70,4 +101,8 @@ class PhoneList extends Component {
     }
 }
 
-export default PhoneList;
+const mapStateToProps = (state)=>({
+    phone:state.phone
+})
+
+export default connect(mapStateToProps,{createPhone, getPhone}) (PhoneList);

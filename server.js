@@ -14,8 +14,13 @@ app.use(bodyParser.json());
 
 const Agency = require('./api/routers/agencyRouter');
 const User = require('./api/routers/userRouter');
+const Phone = require('./api/routers/phoneRouter');
+const Tagged = require('./api/routers/taggedPhoneRouter');
+
 app.use('/agency', Agency);
-app.use('/user', User)
+app.use('/user', User);
+app.use('/phone', Phone);
+app.use('/tagged', Tagged)
 
 
 const port = 4000;
